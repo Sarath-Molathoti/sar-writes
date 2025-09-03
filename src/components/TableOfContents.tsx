@@ -61,31 +61,31 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   return (
     <div>
-      <div className="flex items-center mb-4">
-        <div className="p-2 bg-indigo-100 rounded-lg mr-3">
-          <List className="h-4 w-4 text-indigo-600" />
+      <div className="flex items-center mb-6">
+        <div className="p-3 bg-indigo-100 rounded-lg mr-4">
+          <List className="h-5 w-5 text-indigo-600" />
         </div>
-        <h3 className="font-semibold text-gray-900">Table of Contents</h3>
+        <h3 className="font-bold text-gray-900 text-lg">Table of Contents</h3>
       </div>
       
-      <nav className="space-y-1">
+      <nav className="space-y-2">
         {toc.map((item) => (
           <button
             key={item.id}
             onClick={() => scrollToHeading(item.id)}
-            className={`group flex items-center w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-200 ${
+            className={`group flex items-start w-full text-left text-sm py-3 px-4 rounded-lg transition-all duration-200 hover:bg-gray-50 ${
               activeId === item.id
-                ? 'bg-indigo-100 text-indigo-700 font-medium border-l-2 border-indigo-500'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                ? 'bg-indigo-100 text-indigo-700 font-semibold border-l-3 border-indigo-500 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
             }`}
-            style={{ paddingLeft: `${(item.level - 1) * 12 + 12}px` }}
+            style={{ paddingLeft: `${(item.level - 1) * 16 + 16}px` }}
           >
             <ChevronRight 
-              className={`h-3 w-3 mr-2 transition-transform ${
+              className={`h-4 w-4 mr-3 mt-0.5 flex-shrink-0 transition-transform ${
                 activeId === item.id ? 'rotate-90 text-indigo-600' : 'text-gray-400 group-hover:text-gray-600'
               }`} 
             />
-            <span className="truncate">{item.title}</span>
+            <span className="leading-relaxed break-words">{item.title}</span>
           </button>
         ))}
       </nav>

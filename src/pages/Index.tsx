@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { getAllPosts, getCategories, getAllTags, searchPosts } from '@/lib/posts';
 import { PostList } from '@/components/PostList';
 import { SearchBar } from '@/components/SearchBar';
@@ -10,22 +10,46 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Filter, Mail, Code, Briefcase, Sparkles, ArrowRight, BookOpen, Users, Award, TrendingUp } from 'lucide-react';
+import { usePosts } from '@/hooks/usePosts';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const allPosts = getAllPosts();
-  const categories = getCategories();
-  const tags = getAllTags();
+  // Use the hook to get posts dynamically
+  const { posts: dynamicPosts, loading, error } = usePosts();
+  
+  // Use dynamic posts only
+  const allPosts = dynamicPosts;
+  
+  // Get categories and tags from loaded posts
+  const categories = useMemo(() => {
+    if (!allPosts || allPosts.length === 0) return [];
+    const cats = new Set(allPosts.map(post => post.category));
+    return Array.from(cats).sort();
+  }, [allPosts]);
+  
+  const tags = useMemo(() => {
+    if (!allPosts || allPosts.length === 0) return [];
+    const allTagsSet = new Set(allPosts.flatMap(post => post.tags));
+    return Array.from(allTagsSet).sort();
+  }, [allPosts]);
 
   const filteredPosts = useMemo(() => {
+    if (!allPosts || allPosts.length === 0) return [];
+    
     let posts = allPosts;
 
     // Apply search filter
     if (searchQuery.trim()) {
-      posts = searchPosts(searchQuery);
+      const lowercaseQuery = searchQuery.toLowerCase();
+      posts = posts.filter(post => 
+        post.title.toLowerCase().includes(lowercaseQuery) ||
+        post.excerpt.toLowerCase().includes(lowercaseQuery) ||
+        post.content.toLowerCase().includes(lowercaseQuery) ||
+        post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+      );
     }
 
     // Apply category filter
@@ -333,7 +357,21 @@ export default function Index() {
 
             {/* Posts Grid */}
             <div className="lg:col-span-3">
-              <PostList posts={filteredPosts} />
+              <PostList posts={filteredPosts} loading={loading} />
+              {error && (
+                <div className="text-center py-8">
+                  <p className="text-red-600 mb-4">Failed to load posts: {error}</p>
+                </div>
+              )}
+              {!loading && !error && filteredPosts.length === 0 && allPosts.length === 0 && (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">📝</div>
+                  <h3 className="text-2xl font-semibold mb-2 text-gray-900">No posts available</h3>
+                  <p className="text-gray-600 text-lg">
+                    Posts are being loaded from the markdown files.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -25,9 +25,10 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
       <Header />
       
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Main Content - Increased width */}
-          <div className="lg:col-span-4">
+        {/* Updated grid layout: 85% total width usage with increased TOC width */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Main Content - Maintains width but adjusted for new layout */}
+          <div className="lg:col-span-8">
             {/* Back Navigation */}
             <div className="mb-6">
               <Button variant="ghost" asChild className="text-gray-600 hover:text-gray-900 hover:bg-gray-100">
@@ -76,7 +77,7 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
                   </div>
                   <div className="flex items-center">
                     <Clock className="h-4 w-4 mr-2" />
-                    <span>{post.readTime} min read</span>
+                    <span>{post.readingTime} min read</span>
                   </div>
                 </div>
 
@@ -255,18 +256,18 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
             )}
           </div>
 
-          {/* Sidebar - Enhanced */}
-          <div className="lg:col-span-1">
+          {/* Sidebar - Increased width from lg:col-span-1 to lg:col-span-4 */}
+          <div className="lg:col-span-4">
             <div className="sticky top-24 space-y-6">
-              {/* Table of Contents */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200/50">
+              {/* Table of Contents - Enhanced with more space */}
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200/50">
                 <TableOfContents content={post.content} />
               </div>
 
               {/* Author Card - Enhanced */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200/50">
-                <div className="text-center space-y-4">
-                  <div className="w-20 h-20 rounded-full overflow-hidden mx-auto border-4 border-indigo-100">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200/50">
+                <div className="text-center space-y-6">
+                  <div className="w-24 h-24 rounded-full overflow-hidden mx-auto border-4 border-indigo-100">
                     <img
                       src="/sarath.jpg"
                       alt="Molathoti Sarath"
@@ -277,8 +278,8 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
                     />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-lg">Molathoti Sarath</h3>
-                    <p className="text-sm text-gray-600 font-medium">Senior Engineer & Full-Stack Developer</p>
+                    <h3 className="font-bold text-gray-900 text-xl">Molathoti Sarath</h3>
+                    <p className="text-sm text-gray-600 font-medium mt-2">Senior Engineer & Full-Stack Developer</p>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     Passionate about creating innovative solutions and sharing knowledge through technical writing and open-source contributions.
