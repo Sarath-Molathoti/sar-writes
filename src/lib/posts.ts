@@ -70,11 +70,7 @@ function parseFrontmatter(content: string): { data: FrontmatterData; content: st
 function getAvailablePostFiles(): string[] {
   return [
     '/posts/system-design/cap-theorem.md',
-    '/posts/javascript/modern-javascript-features.md',
-    '/posts/react/getting-started-with-react.md',
-    '/posts/security/ethical-hacking-fundamentals.md',
-    '/posts/security/penetration-testing-basics.md',
-    '/posts/system-design/caching-comprehensive-guide.md'
+    '/posts/system-design/database-replication.md',
   ];
 }
 
