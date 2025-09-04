@@ -28,9 +28,17 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
         {/* Updated grid layout: 85% total width usage with better proportions */}
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Main Content - 70% of total width */}
+            {/* Main Content - 75% of total width */}
             <div className="lg:col-span-9">
-           
+              {/* Back Button */}
+              <div className="mb-6">
+                <Link to="/">
+                  <Button variant="ghost" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    Back to Articles
+                  </Button>
+                </Link>
+              </div>
 
               {/* Post Header - Enhanced with title */}
               <div className="mb-8 bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
@@ -72,25 +80,6 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
                       <Clock className="h-4 w-4 mr-2" />
                       <span>{post.readingTime} min read</span>
                     </div>
-                  </div>
-
-                  {/* Tags */}
-                  {post.tags.length > 0 && (
-                    <div className="flex items-start gap-2">
-                      <Tag className="h-4 w-4 mt-1 text-gray-500 dark:text-gray-400 flex-shrink-0" />
-                      <div className="flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Share Buttons */}
-                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <ShareButtons post={post} />
                   </div>
                 </div>
               </div>
@@ -236,6 +225,30 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
                 </div>
               </div>
 
+              {/* Share and Tags Section - Moved to end of post */}
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-8 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+                <div className="space-y-6">
+                  {/* Tags */}
+                  {post.tags.length > 0 && (
+                    <div className="flex items-start gap-2">
+                      <Tag className="h-4 w-4 mt-1 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                          <Badge key={tag} variant="outline" className="text-xs hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Share Buttons */}
+                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <ShareButtons post={post} />
+                  </div>
+                </div>
+              </div>
+
               {/* Related Posts - Enhanced */}
               {relatedPosts.length > 0 && (
                 <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
@@ -249,7 +262,7 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
               )}
             </div>
 
-            {/* Sidebar - 15% of total width for table of contents */}
+            {/* Sidebar - 25% of total width for table of contents */}
             <div className="lg:col-span-3">
               <div className="sticky top-24 space-y-6">
                 {/* Table of Contents - Compact and clean */}

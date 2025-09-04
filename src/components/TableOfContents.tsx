@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { generateTableOfContents } from '@/lib/markdown';
-import { List, ChevronRight } from 'lucide-react';
+import { List } from 'lucide-react';
 
 interface TableOfContentsProps {
   content: string;
@@ -12,8 +12,8 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   useEffect(() => {
     const tocItems = generateTableOfContents(content);
-    // Filter to only include main headings (H1 only for cleaner look)
-    const mainHeadings = tocItems.filter(item => item.level === 1);
+    // Filter to only include H2 headings (## headings only)
+    const mainHeadings = tocItems.filter(item => item.level === 2);
     setToc(mainHeadings);
   }, [content]);
 
@@ -34,7 +34,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
     // Wait for content to render then observe headings
     const timer = setTimeout(() => {
-      const headings = document.querySelectorAll('h1[id]');
+      const headings = document.querySelectorAll('h2[id]');
       headings.forEach((heading) => observer.observe(heading));
     }, 100);
 
@@ -80,9 +80,9 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                 : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
             }`}
           >
-            <ChevronRight 
-              className={`h-3 w-3 mr-2 flex-shrink-0 transition-transform ${
-                activeId === item.id ? 'rotate-90 text-indigo-600 dark:text-indigo-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+            <div 
+              className={`w-2 h-2 rounded-full mr-3 flex-shrink-0 transition-colors ${
+                activeId === item.id ? 'bg-indigo-600 dark:bg-indigo-400' : 'bg-gray-400 dark:bg-gray-500 group-hover:bg-gray-600 dark:group-hover:bg-gray-300'
               }`} 
             />
             <span className="leading-relaxed break-words">{item.title}</span>
