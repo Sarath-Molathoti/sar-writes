@@ -170,7 +170,7 @@ export function PostDetail({ post, relatedPosts }: PostDetailProps) {
                     },
                     pre: ({ children }) => (
                       <div className="relative mb-8 group">
-                        <pre className="bg-gray-900 text-gray-100 rounded-xl p-6 overflow-x-auto shadow-lg border border-gray-800 text-sm leading-relaxed font-mono">
+                        <pre className="bg-gray-900 text-gray-100 rounded-xl p-0 overflow-x-auto shadow-lg border border-gray-800 text-sm leading-relaxed font-mono">
                           {children}
                         </pre>
                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
