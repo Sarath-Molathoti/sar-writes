@@ -69,6 +69,7 @@ function parseFrontmatter(content: string): { data: FrontmatterData; content: st
 // Function to get all available post files
 function getAvailablePostFiles(): string[] {
   return [
+    '/posts/system-design/cap-theorem.md',
     '/posts/javascript/modern-javascript-features.md',
     '/posts/react/getting-started-with-react.md',
     '/posts/security/ethical-hacking-fundamentals.md',
