@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { generateTableOfContents } from '@/lib/markdown';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { List, ChevronRight } from 'lucide-react';
 
 interface TableOfContentsProps {
@@ -13,7 +12,9 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   useEffect(() => {
     const tocItems = generateTableOfContents(content);
-    setToc(tocItems);
+    // Filter to only include main headings (H1 only for cleaner look)
+    const mainHeadings = tocItems.filter(item => item.level === 1);
+    setToc(mainHeadings);
   }, [content]);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
     // Wait for content to render then observe headings
     const timer = setTimeout(() => {
-      const headings = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]');
+      const headings = document.querySelectorAll('h1[id]');
       headings.forEach((heading) => observer.observe(heading));
     }, 100);
 
@@ -61,28 +62,27 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   return (
     <div>
-      <div className="flex items-center mb-6">
-        <div className="p-3 bg-indigo-100 rounded-lg mr-4">
-          <List className="h-5 w-5 text-indigo-600" />
+      <div className="flex items-center mb-4">
+        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg mr-3">
+          <List className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
         </div>
-        <h3 className="font-bold text-gray-900 text-lg">Table of Contents</h3>
+        <h3 className="font-semibold text-gray-900 dark:text-white text-base">Contents</h3>
       </div>
       
-      <nav className="space-y-2">
+      <nav className="space-y-1">
         {toc.map((item) => (
           <button
             key={item.id}
             onClick={() => scrollToHeading(item.id)}
-            className={`group flex items-start w-full text-left text-sm py-3 px-4 rounded-lg transition-all duration-200 hover:bg-gray-50 ${
+            className={`group flex items-center w-full text-left text-sm py-2 px-3 rounded-lg transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 ${
               activeId === item.id
-                ? 'bg-indigo-100 text-indigo-700 font-semibold border-l-3 border-indigo-500 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-medium border-l-2 border-indigo-500'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
             }`}
-            style={{ paddingLeft: `${(item.level - 1) * 16 + 16}px` }}
           >
             <ChevronRight 
-              className={`h-4 w-4 mr-3 mt-0.5 flex-shrink-0 transition-transform ${
-                activeId === item.id ? 'rotate-90 text-indigo-600' : 'text-gray-400 group-hover:text-gray-600'
+              className={`h-3 w-3 mr-2 flex-shrink-0 transition-transform ${
+                activeId === item.id ? 'rotate-90 text-indigo-600 dark:text-indigo-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
               }`} 
             />
             <span className="leading-relaxed break-words">{item.title}</span>
